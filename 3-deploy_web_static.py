@@ -1,15 +1,23 @@
 #!/usr/bin/python3
 """
+<<<<<<< HEAD
 Fabric script based on the file 2-do_deploy_web_static.py that creates and
 distributes an archive to the web servers
 
 execute: fab -f 3-deploy_web_static.py deploy -i ~/.ssh/id_rsa -u ubuntu
+=======
+    Creates and distributes an archive to the web servers
+>>>>>>> c71c1635170087271742b4dc7b9cb49aa70c99a2
 """
 
 from fabric.api import env, local, put, run
 from datetime import datetime
 from os.path import exists, isdir
+<<<<<<< HEAD
 env.hosts = ['54.196.38.159','100.25.161.181']
+=======
+env.hosts = ['100.25.153.121', '100.25.23.179']
+>>>>>>> c71c1635170087271742b4dc7b9cb49aa70c99a2
 
 
 def do_pack():
@@ -21,7 +29,11 @@ def do_pack():
         file_name = "versions/web_static_{}.tgz".format(date)
         local("tar -cvzf {} web_static".format(file_name))
         return file_name
+<<<<<<< HEAD
     except:
+=======
+    except FileNotFoundError:
+>>>>>>> c71c1635170087271742b4dc7b9cb49aa70c99a2
         return None
 
 
@@ -39,10 +51,19 @@ def do_deploy(archive_path):
         run('rm /tmp/{}'.format(file_n))
         run('mv {0}{1}/web_static/* {0}{1}/'.format(path, no_ext))
         run('rm -rf {}{}/web_static'.format(path, no_ext))
+<<<<<<< HEAD
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
     except:
+=======
+        run('sudo rm -rf /data/web_static/current')
+        run('sudo ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
+        run('chmod -R 755 {}{}/'.format(path, no_ext))
+        run('sudo rm -rf {}{}'.format(path, no_ext))
+        return True
+    except FileNotFoundError:
+>>>>>>> c71c1635170087271742b4dc7b9cb49aa70c99a2
         return False
 
 
